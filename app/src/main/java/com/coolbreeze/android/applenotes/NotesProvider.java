@@ -13,20 +13,28 @@ import android.support.annotation.Nullable;
  */
 public class NotesProvider extends ContentProvider {
 
+    //AUTHORITY is a globally unique string that identifies the content provider to the android framework
+    // Only one app on device can use a particular authority
     private static final String AUTHORITY = "com.example.plainolnotes.notesprovider";
+
+    // Represents the entire dataset: in our app we have only one table, so we have given base path as table name
     private static final String BASE_PATH = "notes";
+
+    // URI is a Uniform Resource Identifier, it is used to identify content provider
     public static final Uri CONTENT_URI =
             Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH );
 
-    // Constant to identify the requested operation
-    private static final int NOTES = 1;
-    private static final int NOTES_ID = 2;
+    // Constant to identify the requested operation we can do with this content provider.
+    private static final int NOTES = 1; // Operation Desc.: Give me the data.
+    private static final int NOTES_ID = 2; // Operation Desc.: Will deal with only a single record.
 
     private static final UriMatcher uriMatcher =
             new UriMatcher(UriMatcher.NO_MATCH);
 
     public static final String CONTENT_ITEM_TYPE = "Note";
 
+    // The code block with the static modifier signifies a class initializer;
+    // without the static modifier the code block is an instance initializer.
     static {
         uriMatcher.addURI(AUTHORITY, BASE_PATH, NOTES);
         uriMatcher.addURI(AUTHORITY, BASE_PATH +  "/#", NOTES_ID);
@@ -36,7 +44,10 @@ public class NotesProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        return false;
+
+        DBOpenHelper helper = new DBOpenHelper(getContext());
+        database = helper.getWritableDatabase();
+        return true;
     }
 
     @Nullable

@@ -18,6 +18,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name=".NotesProvider"
+            android:authorities="com.example.plainolnotes.notesprovider"
+            android:exported="false" />  <!-- exported: Whether the content provider will be available outside this app or not-->
+
+
     </application>
 
 </manifest>
