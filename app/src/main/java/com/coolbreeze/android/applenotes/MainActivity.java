@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
         String from[] = {DBOpenHelper.NOTE_TEXT};
-        int[] to = {android.R.id.text1};
+        int[] to = {R.id.tvNote};
         cursorAdapter = new SimpleCursorAdapter(this, R.layout.note_list_item, null, from, to, 0);
 
         ListView list = (ListView) findViewById(android.R.id.list);
