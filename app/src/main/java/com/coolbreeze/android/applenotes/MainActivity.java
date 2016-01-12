@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        insertNote("New Note");
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +43,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    private void insertNote(String noteText) {
+        ContentValues values = new ContentValues();
+
+        // Adding Key-Value pair: The key is the name of the column we are assigning value to.
+        values.put(DBOpenHelper.NOTE_TEXT, noteText);
+
+        // Calling content provider
+        Uri noteUri = getContentResolver().insert(NotesProvider.CONTENT_URI,
+                values);
+
+        // call d method(debug method)
+        // Argument: MainActivity: current class
+        Log.d("MainActivity", "Inserted note " + noteUri.getLastPathSegment());
     }
 
     @Override
@@ -71,12 +89,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         restartLoader();
     }
 
-    private void insertNote(String noteText) {
-        ContentValues values = new ContentValues();
-        values.put(DBOpenHelper.NOTE_TEXT, noteText);
-        Uri noteUri = getContentResolver().insert(NotesProvider.CONTENT_URI,
-                values);
-    }
 
     private void restartLoader() {
         getLoaderManager().restartLoader(0, null, this);

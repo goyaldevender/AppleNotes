@@ -10,6 +10,8 @@ import android.support.annotation.Nullable;
 
 /**
  * Created by Devender Goyal on 1/11/2016.
+ *
+ * Each of the methods for insert, update and delete will use the database object created earlier.
  */
 public class NotesProvider extends ContentProvider {
 
@@ -58,12 +60,14 @@ public class NotesProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    // It will retrieve all the notes or just single note
 
         if (uriMatcher.match(uri) == NOTES_ID) {
             selection = DBOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
         }
 
-        // Specify: Table to query on, Columns to retrive, where clause, null, null, null, sort order( sort on which parameter and how )
+        // Specify: Table to query on, Columns to retrive, where clause to filter data, null, null, null, sort order( sort on which parameter and how )
+        // If we pass NULL for selection argument then we will get all the data
         return database.query(DBOpenHelper.TABLE_NOTES, DBOpenHelper.ALL_COLUMNS, selection, null, null, null, DBOpenHelper.NOTE_CREATED + " DESC");
     }
 
@@ -77,23 +81,34 @@ public class NotesProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         // This methods return a URI which is supposed to match the URI pattern defined above.
-        // ContentValue class has collection of name value pairs
+        // ContentValue class has collection of name value pairs. It is very similar to the
+        // bundle class in android but the bundle class is generally used to manage the user
+        // interface, where as ContentValues is used to pass the data around in backend.
+        //
+
 
         // Getting value of primary key
         long id = database.insert(DBOpenHelper.TABLE_NOTES,null,values);
+
+        // URI should match the URI pattern: AUTHORITY, BASE_PATH + "/#", NOTES_ID
+        // Make sure we are using the version of URI from Android.net
+        // The parse method returns the URI equivalent to String
         return Uri.parse(BASE_PATH + "/" + id);
+
+
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         // Return an integer value that represents, number of rows deleted.
 
-
         return database.delete(DBOpenHelper.TABLE_NOTES, selection, selectionArgs);
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        // Returns: The number of rows affected.
+        //
         return database.update(DBOpenHelper.TABLE_NOTES,
                 values, selection, selectionArgs);
     }
