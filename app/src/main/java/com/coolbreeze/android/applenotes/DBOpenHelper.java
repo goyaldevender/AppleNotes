@@ -7,22 +7,19 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Devender Goyal on 1/11/2016.
  */
-public class DBOpenHelper extends SQLiteOpenHelper{
-
-    //Constants for db name and version
-    private static final String DATABASE_NAME = "notes.db";
-    private static final int DATABASE_VERSION = 1;
+public class DBOpenHelper extends SQLiteOpenHelper {
 
     //Constants for identifying table and columns
     public static final String TABLE_NOTES = "notes";
     public static final String NOTE_ID = "_id"; // Expected name of primary key column when content provider is managing the data
     public static final String NOTE_TEXT = "noteText";
     public static final String NOTE_CREATED = "noteCreated";
-
     // Columns which are to be retrieved.
     public static final String[] ALL_COLUMNS =
             {NOTE_ID, NOTE_TEXT, NOTE_CREATED};
-
+    //Constants for db name and version
+    private static final String DATABASE_NAME = "notes.db";
+    private static final int DATABASE_VERSION = 1;
     //SQL to create table
     //CURRENT_TIMESTAMP is an SQLLite function
     private static final String TABLE_CREATE =

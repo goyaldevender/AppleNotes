@@ -22,9 +22,13 @@
         <provider
             android:name=".NotesProvider"
             android:authorities="com.example.plainolnotes.notesprovider"
-            android:exported="false" />  <!-- exported: Whether the content provider will be available outside this app or not-->
+            android:exported="false" />
+        <!-- exported: Whether the content provider will be available outside this app or not -->
 
-
+        <activity
+            android:name=".EditorActivity"
+            android:label="@string/title_activity_editor"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

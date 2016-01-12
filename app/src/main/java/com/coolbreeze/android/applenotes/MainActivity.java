@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     /*
         It is a best practise to execute all database related tasks on background threads. There are
         couple of ways of doing this. We can create our own implementation of async tasks, and call all
@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        insertNote("New Note");
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         String from[] = {DBOpenHelper.NOTE_TEXT};
         int[] to = {android.R.id.text1};
-        cursorAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_1, null, from, to, 0);
+        cursorAdapter = new SimpleCursorAdapter(this, R.layout.note_list_item, null, from, to, 0);
 
         ListView list = (ListView) findViewById(android.R.id.list);
         list.setAdapter(cursorAdapter);
