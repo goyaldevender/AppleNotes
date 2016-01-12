@@ -19,6 +19,7 @@ public class DBOpenHelper extends SQLiteOpenHelper{
     public static final String NOTE_TEXT = "noteText";
     public static final String NOTE_CREATED = "noteCreated";
 
+    // Columns which are to be retrieved.
     public static final String[] ALL_COLUMNS =
             {NOTE_ID, NOTE_TEXT, NOTE_CREATED};
 

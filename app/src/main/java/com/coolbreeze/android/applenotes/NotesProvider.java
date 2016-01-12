@@ -28,16 +28,21 @@ public class NotesProvider extends ContentProvider {
     private static final int NOTES = 1; // Operation Desc.: Give me the data.
     private static final int NOTES_ID = 2; // Operation Desc.: Will deal with only a single record.
 
-    private static final UriMatcher uriMatcher =
-            new UriMatcher(UriMatcher.NO_MATCH);
+    private static final UriMatcher uriMatcher  = new UriMatcher(UriMatcher.NO_MATCH);
 
     public static final String CONTENT_ITEM_TYPE = "Note";
 
-    // The code block with the static modifier signifies a class initializer;
-    // without the static modifier the code block is an instance initializer.
+    /*
+    The code block with the static modifier signifies a class initializer;
+    without the static modifier the code block is an instance initializer.
+    */
     static {
+        /* Registering operations */
+
         uriMatcher.addURI(AUTHORITY, BASE_PATH, NOTES);
-        uriMatcher.addURI(AUTHORITY, BASE_PATH +  "/#", NOTES_ID);
+
+        // # means any number i.e we are looking for any particular row in database
+        uriMatcher.addURI(AUTHORITY, BASE_PATH + "/#", NOTES_ID);
     }
 
     private SQLiteDatabase database;
@@ -45,7 +50,7 @@ public class NotesProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
 
-        DBOpenHelper helper = new DBOpenHelper(getContext());
+        DBOpenHelper helper = new DBOpenHelper(getContext()); // We could not use "this" here because content provider is not a context
         database = helper.getWritableDatabase();
         return true;
     }
@@ -53,7 +58,13 @@ public class NotesProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
+
+        if (uriMatcher.match(uri) == NOTES_ID) {
+            selection = DBOpenHelper.NOTE_ID + "=" + uri.getLastPathSegment();
+        }
+
+        // Specify: Table to query on, Columns to retrive, where clause, null, null, null, sort order( sort on which parameter and how )
+        return database.query(DBOpenHelper.TABLE_NOTES, DBOpenHelper.ALL_COLUMNS, selection, null, null, null, DBOpenHelper.NOTE_CREATED + " DESC");
     }
 
     @Nullable
@@ -65,16 +76,25 @@ public class NotesProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues values) {
-        return null;
+        // This methods return a URI which is supposed to match the URI pattern defined above.
+        // ContentValue class has collection of name value pairs
+
+        // Getting value of primary key
+        long id = database.insert(DBOpenHelper.TABLE_NOTES,null,values);
+        return Uri.parse(BASE_PATH + "/" + id);
     }
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        // Return an integer value that represents, number of rows deleted.
+
+
+        return database.delete(DBOpenHelper.TABLE_NOTES, selection, selectionArgs);
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        return database.update(DBOpenHelper.TABLE_NOTES,
+                values, selection, selectionArgs);
     }
 }
