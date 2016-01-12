@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Apple Notes</string>
-    <string name="action_settings">Settings</string>
+    <string name="create_example_data">Create Example Notes</string>
+    <string name="delete_all">Delete All</string>
+    <string name="are_you_sure">Are you sure ??</string>
+    <string name="all_deleted">All notes have been deleted</string>
 </resources>
