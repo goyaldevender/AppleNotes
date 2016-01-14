@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 
 /**
  * Created by Devender Goyal on 1/11/2016.
- * <p>
+ * <p/>
  * Each of the methods for insert, update and delete will use the database object created earlier.
  */
 public class NotesProvider extends ContentProvider {

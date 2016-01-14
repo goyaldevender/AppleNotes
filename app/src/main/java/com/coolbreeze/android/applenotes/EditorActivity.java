@@ -67,7 +67,7 @@ public class EditorActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        switch (id){
+        switch (id) {
             case android.R.id.home: //Id which automatically gets generated when we click back button;
                 finishEditing();
                 break;
@@ -101,17 +101,17 @@ public class EditorActivity extends AppCompatActivity {
     private void finishEditing() {
         String newText = editor.getText().toString().trim();
 
-        switch(action){
+        switch (action) {
             case Intent.ACTION_INSERT:
-                if(newText.length()==0)
+                if (newText.length() == 0)
                     setResult(RESULT_CANCELED);
                 else
                     insertNote(newText);
                 break;
             case Intent.ACTION_EDIT:
-                if(newText.length() == 0)
+                if (newText.length() == 0)
                     deleteNote();
-                else if(oldText.equals(newText))
+                else if (oldText.equals(newText))
                     setResult(RESULT_CANCELED);
                 else
                     updateNote(newText);
