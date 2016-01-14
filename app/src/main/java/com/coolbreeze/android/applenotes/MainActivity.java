@@ -51,14 +51,23 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                openEditorForNewNote(view);
             }
         });
+
+
+        /*
+        Here we are using the built in class from Android SDK, called SimpleCursorAdapter
+        This Cursor Adaptor knows how to pass text directly from the cursor/database into the
+        layout. But if we want to change the text and the way it is displayed dynamically, then
+        we need to create our own Cursor Adaptor.
 
         String from[] = {DBOpenHelper.NOTE_TEXT};
         int[] to = {R.id.tvNote};
         cursorAdapter = new SimpleCursorAdapter(this, R.layout.note_list_item, null, from, to, 0);
+        */
+
+        cursorAdapter = new NotesCursorAdapter(this, null, 0);
 
         ListView list = (ListView) findViewById(android.R.id.list);
         list.setAdapter(cursorAdapter);
@@ -186,9 +195,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     public void openEditorForNewNote(View view) {
-//        Intent intent = new Intent(this, EditorActivity.class);
-//        startActivityForResult(intent, EDITOR_REQUEST_CODE);
-
+        Intent intent = new Intent(this, EditorActivity.class);
+        startActivityForResult(intent, EDITOR_REQUEST_CODE);
     }
 
     @Override

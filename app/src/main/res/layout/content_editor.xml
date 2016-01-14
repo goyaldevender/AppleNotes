@@ -13,17 +13,17 @@
     tools:showIn="@layout/activity_editor">
 
     <EditText
-        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:id="@+id/editText"
         android:gravity="top"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:hint="@string/enter_note_here"
-        android:inputType="textMultiLine|textCapSentences" />
+        android:inputType="textMultiLine|textCapSentences"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
