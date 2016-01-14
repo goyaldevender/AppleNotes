@@ -39,6 +39,11 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 //     This method is called when DBOpenHelper Class is first instantiated.
 //     It creates the database structure, if it already doesn't exist.
         db.execSQL(TABLE_CREATE);
+        db.execSQL("INSERT INTO " + TABLE_NOTES + " VALUES (1,'Thanks for downloading Apple Notes !',null)");
+        db.execSQL("INSERT INTO " + TABLE_NOTES + " VALUES (2,'Developer: Devender Goyal\n\n" +
+                "I am a software developer at SAP" + "\n\n" +
+                "In case you like my app, Please visit" + "\n\n" +
+                "www.linkedin.com/in/goyaldevender',null)");
     }
 
     @Override

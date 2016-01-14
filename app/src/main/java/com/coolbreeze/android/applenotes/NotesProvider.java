@@ -52,7 +52,7 @@ public class NotesProvider extends ContentProvider {
         return true;
     }
 
-    @Nullable
+
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         // It will retrieve all the notes or just single note
@@ -107,4 +107,5 @@ public class NotesProvider extends ContentProvider {
         return database.update(DBOpenHelper.TABLE_NOTES,
                 values, selection, selectionArgs);
     }
+
 }

@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -83,7 +80,17 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void deleteNote() {
+        getContentResolver().delete(NotesProvider.CONTENT_URI, noteFilter, null);
+        Toast.makeText(this, "Note deleted", Toast.LENGTH_SHORT).show();
 
+        // setResult: Call this to set the result that your activity will return to its caller
+
+        // In the main activity we will use the value of result to restart our loader(async. call
+        // to database)
+
+        setResult(RESULT_OK);
+        // So that we go back to previous activity
+        finish();
     }
 
     @Override

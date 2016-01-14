@@ -11,7 +11,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -83,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
         getLoaderManager().initLoader(0, null, this);
+
+
     }
 
     private void insertNote(String noteText) {
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Calling content provider
         Uri noteUri = getContentResolver().insert(NotesProvider.CONTENT_URI,
                 values);
+
 
         // call d method(debug method)
         // Argument: MainActivity: current class
@@ -116,9 +117,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         //noinspection SimplifiableIfStatement
         switch (id) {
-            case R.id.action_create_example:
-                insertExampleData();
-                break;
             case R.id.action_delete_all:
                 deleteAllNotes();
                 break;
@@ -126,15 +124,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         return super.onOptionsItemSelected(item);
     }
-
-    private void insertExampleData() {
-        insertNote("Simple note");
-        insertNote("Multi-line\nnote");
-        insertNote("Very long note with a lot of text that exceeds the width of the screen");
-
-        restartLoader();
-    }
-
 
     private void deleteAllNotes() {
         DialogInterface.OnClickListener dialogClickListener =
@@ -173,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //
 
         //This method is called whenever the data is needed from content provider.
-
         //CursorLoader class is specifically designed to manage the cursor.
 
         //
@@ -218,4 +206,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             restartLoader();
         }
     }
+
+
 }
