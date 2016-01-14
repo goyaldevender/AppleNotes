@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivityForResult(intent, EDITOR_REQUEST_CODE);
             }
         });
-
         getLoaderManager().initLoader(0, null, this);
     }
 
@@ -206,6 +205,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     public void openEditorForNewNote(View view) {
+
+        // We can assign any integer value to EDITOR_REQUEST_CODE, it is only there so
+        // that we can identify the request when we come back to this activity.
         Intent intent = new Intent(this, EditorActivity.class);
         startActivityForResult(intent, EDITOR_REQUEST_CODE);
     }
