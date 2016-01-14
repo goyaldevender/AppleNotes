@@ -1,5 +1,6 @@
 package com.coolbreeze.android.applenotes;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class EditorActivity extends AppCompatActivity {
 
@@ -28,8 +30,8 @@ public class EditorActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        EditText editText = (EditText) findViewById(R.id.editText);
+
+        editor = (EditText) findViewById(R.id.editText);
 //        editText.getBackground().clearColorFilter();
 
         Intent intent = getIntent();
@@ -68,9 +70,13 @@ public class EditorActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_delete)
-        {
-            deleteNote();
+        switch (id){
+            case android.R.id.home: //Id which automatically gets generated when we click back button;
+                finishEditing();
+                break;
+            case R.id.action_delete:
+                deleteNote();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -86,5 +92,42 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void finishEditing() {
+        String newText = editor.getText().toString().trim();
+
+        switch(action){
+            case Intent.ACTION_INSERT:
+                if(newText.length()==0)
+                    setResult(RESULT_CANCELED);
+                else
+                    insertNote(newText);
+                break;
+            case Intent.ACTION_EDIT:
+                if(newText.length() == 0)
+                    deleteNote();
+                else if(oldText.equals(newText))
+                    setResult(RESULT_CANCELED);
+                else
+                    updateNote(newText);
+        }
+        // This is called when the current activity is finished and should be closed.
+        // The ActivityResult is propagated back to whoever launched you via onActivityResult()
+        finish();
+    }
+
+    private void updateNote(String noteText) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.NOTE_TEXT, noteText);
+        // noteFilter tells which note to be updated
+        getContentResolver().update(NotesProvider.CONTENT_URI, values, noteFilter, null);
+        Toast.makeText(this, "Note updated", Toast.LENGTH_SHORT).show();
+        setResult(RESULT_OK);
+    }
+
+    private void insertNote(String newText) {
+        ContentValues values = new ContentValues();
+        values.put(DBOpenHelper.NOTE_TEXT, newText);
+        getContentResolver().insert(NotesProvider.CONTENT_URI, values);
+        Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
+        setResult(RESULT_OK);
     }
 }
